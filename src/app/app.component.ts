@@ -79,7 +79,7 @@ playBigLoop() {
         source.buffer = soundBufferRecord;
         // if (that.isStopped) { 
         //     source.buffer.startTime = source.buffer.startTime - that.timeWhenStopped;
-        // }
+        // } 
         source.connect(that.audioContext.destination);
         source.start(that.audioContext.currentTime + source.buffer.startTime);  
 });
@@ -88,7 +88,43 @@ playBigLoop() {
    
 }
 
- recordLoop() {
+startMetronome() {
+    let nextNoteTime = 0;
+    for (var index=0;index<4; index ++ ) {
+        var osc = this.audioContext.createOscillator();
+        osc.connect( this.audioContext.destination );
+        osc.start(nextNoteTime);
+        nextNoteTime+=1;
+        osc.stop(nextNoteTime - 0.9);
+}
+}
+ 
+startRecord() {
+    let that = this;
+    let startTime = that.audioContext.currentTime;
+    this.startMetronome() 
+}
+    // let options = new RequestOptions({responseType: ResponseContentType.ArrayBuffer});
+    // let url = '/assets/WAV/Shakers/Crude_Shaker_PL.wav'
+    // for (var index=0;index<4; index ++ ) {
+    //     that.http.get(url, options)
+    //     .map(r => r.arrayBuffer())
+    //     .subscribe((soundBuffer) => {
+            
+    //         that.audioContext.decodeAudioData(soundBuffer, (buffer) => {
+    //             console.log('test');
+    //             let source = that.audioContext.createBufferSource(); 
+    //             source.buffer = buffer;
+    //             source.connect(that.audioContext.destination);
+    //             console.log(that.audioContext.currentTime)
+    //             source.start(that.audioContext.currentTim);
+    //         }
+    //     )}
+    // )}
+ 
+ 
+
+ stopRecord() {
     this.bigLoops.push(this.decodedAudioRecord);  
     this.decodedAudioRecord = []; 
     this.timeWhenStopped = this.audioContext.currentTime;
