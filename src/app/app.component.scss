@@ -1,0 +1,23 @@
+
+ .pad-wrapper {
+     position: absolute;
+        left: 0;
+        right: 0;
+    width: 500px;
+    height: 500px;
+    margin: 0 auto;
+    background-color: rgba(0,255,0,0.3);
+
+ }
+ .pad-button {
+     float: left;   
+     width: 100px;
+     height: 100px;
+     float: left;
+     background: linear-gradient(gold,white, gold);
+     border: 2px solid springgreen;
+     
+     &:active {
+        background-color: linear-gradient(gold,green, gold);
+     }
+ }

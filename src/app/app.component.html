@@ -1,0 +1,16 @@
+<div class="container">
+    <app-menu></app-menu>
+    <hr>
+    <div class="controls-wrapper">
+        <button class="pad-button"  (click)="playRecord()">PLAY LOOP</button>
+        <button class="pad-button"  (click)="playBigLoop()">PLAY BIG LOOP</button>
+        <button class="pad-button"  (click)="recordLoop()">StopSounds</button>
+    </div>
+    <div class="pad-wrapper">
+        <div class="button-wrapper" *ngFor="let sound of sounds">
+            <button class="pad-button"  (click)="play(sound)">{{sound.title}}</button>
+        </div>
+ 
+    </div>    
+    <router-outlet></router-outlet>
+ </div>
