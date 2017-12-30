@@ -6,16 +6,17 @@ import {RouterModule, Routes } from '@angular/router';
 
 import { AppComponent } from './app.component';
 import { MenuComponent } from './menu.component';
-import { WeatherComponent } from './weather/weather.component';
+import { LooperComponent } from './weather/weather.component';
 import { CurrencyComponent } from './currency/currency.component';
 import { MovieComponent } from './movie/movie.component';
 import { CONST_ROUTING } from './app.routing';
+import createProjectService from './movie/createProject.service';
 
 @NgModule({
   declarations: [
     AppComponent,
     MenuComponent,
-    WeatherComponent,
+    LooperComponent,
     CurrencyComponent,
     MovieComponent
   ],
@@ -25,7 +26,7 @@ import { CONST_ROUTING } from './app.routing';
     HttpModule,
     CONST_ROUTING
   ],
-  providers: [],
+  providers: [createProjectService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

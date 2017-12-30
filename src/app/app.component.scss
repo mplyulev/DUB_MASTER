@@ -1,3 +1,6 @@
+body {
+    background-color: black;
+}
 
  .pad-wrapper {
      position: absolute;
@@ -10,14 +13,122 @@
 
  }
  .pad-button {
+     position: relative;
      float: left;   
      width: 100px;
      height: 100px;
      float: left;
-     background: linear-gradient(gold,white, gold);
-     border: 2px solid springgreen;
-     
-     &:active {
-        background-color: linear-gradient(gold,green, gold);
-     }
+     background-image: url('../assets/button.png');
+     border: 2px solid white;
+     margin: 5px;
+     border-radius: 15px;
+     text-align: center;  
+     font-family: sans-serif;  
+     cursor: pointer;
+     transition:transform  1s ease-in
  }
+
+.create-project-button {
+    width: 200px;
+    height: 70px;
+    position: relative;
+    left: 0;
+    right: 0;
+    cursor: pointer;
+    color: white;
+    background-color: green;
+    border: 1px solid transparent;
+    border-radius: 20px;
+    text-align: center;
+    vertical-align: middle;
+}
+ 
+.tempo-input-wrapper input {
+    width: 200px;
+    margin-top: 40px;
+}
+
+.tempo-input-wrapper {
+    text-align: center;
+}
+
+ .pad-button:active {
+    border: 2px solid green;
+ }
+
+ .pad-button.selected {
+     top: -50px;
+    transform: scale(1.1);  
+ }
+
+ .pad-button:hover {
+    color: rgba(255, 255, 255, 1);
+    box-shadow: 5px 5px 15px rgba(145, 92, 182, 1);
+   }
+
+ .pad-button span {
+    position: relative;
+        top: 10px;
+     color: white;
+     font-size:30px;
+     text-align: center;
+ }
+
+ .disabled {
+     pointer-events: none;
+     filter: grayscale(90%)
+ }
+
+ .controls-wrapper {
+     width:300px;
+ }
+
+ .loop-progress-indicator {
+     position: relative;
+     width: 200px;
+     float: left;
+     clear: both;
+     margin-top: 30px;
+     height: 20px;
+     border: 1px solid white;
+ }
+
+ .progress-bar-fill {
+    background-color:yellow;
+    position: absolute;
+    height: 20px;
+ 
+ }
+ .progress-bar-fill.recording {
+     background-color: red;
+  }
+  
+
+ .landing-page {
+     width: 100%;
+     height:100%;
+     background-color:black;
+ }
+
+ .logo-wrapper {
+     position: absolute;
+        top: 50%;
+        left: 0;
+        right: 0;
+     width: 200px;
+     height: 200px;
+     transform:  translateY(-50%) scale(4);
+     background-image: url('../assets/dub-master.png');
+     margin: 0 auto;
+ }
+
+ .beat-setting-buttons-wrappper {
+    position: absolute;
+        top: 70%;
+        left: 0;
+        right: 0;
+     width: 360px;
+     margin: 0 auto;
+    
+ }
+

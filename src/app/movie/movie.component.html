@@ -1,3 +1,15 @@
-<p>
-  movie works!
-</p>
+<div class="landing-page">
+  <div class="logo-wrapper"></div>
+ 
+
+  <div class="project-settings-wrapper">
+ 
+  <div class="beat-setting-buttons-wrappper"> 
+    <div class="pad-button" [class.selected]="createProjectService.beats == 4" (click)="createProjectService.changeBeatNumber(4)"><span>4 BEATS</span></div>
+    <div class="pad-button" [class.selected]="createProjectService.beats == 8" (click)="createProjectService.changeBeatNumber(8)"><span>8 BEATS</span></div> 
+    <div class="pad-button" [class.selected]="createProjectService.beats == 16" (click)="createProjectService.changeBeatNumber(16)"><span>16 BEATS</span></div>
+   <div class="tempo-input-wrapper"> <input type='number'(change)="createProjectService.changeMetronomeTempo()"  [(ngModel)]="createProjectService.tempo" min='60' max='200'></div> 
+  </div>
+  <div class="create-project-button" [class.disabled]="!createProjectService.beats || !createProjectService.tempo"  routerLink="/weather" >Create Project</div>
+  </div>
+</div>
