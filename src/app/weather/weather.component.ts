@@ -5,7 +5,7 @@ import { HostListener } from '@angular/core';
 import createProjectService from '../movie/createProject.service';
 import { Http, ResponseContentType } from '@angular/http';
 import {RequestOptions, Request, RequestMethod} from '@angular/http';
-   
+import { NouisliderModule } from 'ng2-nouislider';   
 declare var AudioContext;
 declare var webkitAudioContext;
 @Component({
@@ -15,6 +15,7 @@ declare var webkitAudioContext;
 })
 
 export class LooperComponent {
+   
    public sounds: any = [ 
    '/assets/kits/boon.wav',
    '/assets/kits/break.wav',
@@ -53,7 +54,7 @@ export class LooperComponent {
    '/assets/kits/bass1.wav',];
 
      
-   
+
 public singleTrackPlayButtons = [];
 public trackId = 0;
 public isMetronomePlaying = false;
@@ -73,11 +74,13 @@ public beats = this.createProjectService.beats;
 public duration = this.createProjectService.duration;
 constructor(private http:Http, private createProjectService: createProjectService) {}
 ngOnInit (){ 
-this.loadSounds()
+this.loadSounds();
 }
 
 public projectSettings;
 audioContext = new AudioContext();
+public mainVolumeNode = this.audioContext.createGain();
+ 
 public metronomeNode = this.audioContext.createBufferSource(); 
 public keyCode;
 public pressedButton: string = '';
@@ -88,6 +91,12 @@ public handleKeyboardEvent(event: KeyboardEvent): void {
  
     if (this.keyCode === 106) {
         this.startRecord();
+    }
+    if (this.keyCode === 32) {
+        this.playBigLoop();
+    }
+    if (this.keyCode === 111) {
+        this.handleMetronome();
     }
     for (let index=0; index<that.soundsBufferAudio.length; index++) {
         let soundKeyCode = that.soundsBufferAudio[index].keyCode;
@@ -102,14 +111,15 @@ public isAllStopped: Boolean;
  
 play(sound) {
     var startTime  = this.audioContext.currentTime;
-     
+ 
     var recordStarted = this.recordStarted;
     var source = this.audioContext.createBufferSource();
     if (this.isRecording) {
         this.undecodedBuffers.push({sound:sound.soundBuffer,startTime:startTime,trackId:this.trackId,recordStarted:recordStarted});
     }
     source.buffer = sound.soundBuffer;
-    source.connect(this.audioContext.destination);       
+    this.mainVolumeNode.connect(this.audioContext.destination);
+    source.connect(this.mainVolumeNode);       
     source.start(0); 
 }
  
@@ -129,6 +139,12 @@ startMetronome () {
             that.metronomeNode.loopEnd =(60/that.tempo);
         })  
     });
+}
+
+changeVolume(volume) {
+    this.mainVolumeNode.gain.value = volume/100;
+    console.log(volume);
+    console.log( this.mainVolumeNode.gain.value)
 }
 
 stopMetronome () {
@@ -169,7 +185,8 @@ playBigLoop() {
         if (bufferExtendedDuration.trackId == that.trackId || that.isAllStopped) {
             let source = that.audioContext.createBufferSource(); 
             source.buffer = bufferExtendedDuration;      
-            source.connect(that.audioContext.destination);      
+            that.mainVolumeNode.connect(that.audioContext.destination)
+            source.connect( that.mainVolumeNode)
             source.start(that.audioContext.currentTime +  startTime); 
             source.loop = true;  
             that.playingNodes.push({source:source,trackId:currentSoundTrackId,isPlaying: true}); 

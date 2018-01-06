@@ -8,6 +8,7 @@
         <button class="pad-button"  (click)="stopRecord()">StopSounds</button>
         <button class="pad-button"  (click)="handleMetronome()">Metronome</button>
     </div>
+    
     <div class="single-track-play-wrapper" *ngFor="let track of singleTrackPlayButtons">
         <button class="pad-button" *ngIf="track.isPlaying" (click)="stopRecordedTrack(track.trackId)" >{{track.trackId}}</button>
         <button class="pad-button" *ngIf="!track.isPlaying" (click)="playLittleLoop(track.trackId);" >{{track.trackId}}</button>
@@ -23,4 +24,4 @@
     <div class="loop-progress-indicator">
         <div  [style.width.%]="progressFillWidth" [class.recording]="isRecording" class="progress-bar-fill"></div> 
     </div>  
-    
+    <div class="volume-input-wrapper"> <input type='number'(change)="changeVolume(volume)"  [(ngModel)]="volume" min='0' max='100'></div> 
