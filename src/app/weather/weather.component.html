@@ -14,7 +14,10 @@
     </div>
     <div class="pad-wrapper">
         <div class="button-wrapper"  *ngFor="let sound of soundsBufferAudio">
-            <button class="pad-button" (click)="play(sound)">{{sound.keyCode}}</button>
+            <button class="pad-button" [class.active]="keyCode==sound.keyCode" (click)="play(sound)">
+                <h3>{{sound.title}}</h3> 
+                 <h3>{{sound.key}}</h3>
+            </button>
         </div>
     </div>  
     <div class="loop-progress-indicator">

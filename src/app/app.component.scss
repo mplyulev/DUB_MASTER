@@ -61,6 +61,10 @@ body {
     transform: scale(1.1);  
  }
 
+.pad-button.active {
+    background-image: url('../assets/button2.png');
+}
+
  .pad-button:hover {
     color: rgba(255, 255, 255, 1);
     box-shadow: 5px 5px 15px rgba(145, 92, 182, 1);

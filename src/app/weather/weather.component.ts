@@ -2,9 +2,7 @@ import { Injectable } from '@angular/core';
 import { Component } from '@angular/core';
 import 'rxjs/Rx';
 import { HostListener } from '@angular/core';
- 
-import createProjectService from '../movie/createProject.service'
-
+import createProjectService from '../movie/createProject.service';
 import { Http, ResponseContentType } from '@angular/http';
 import {RequestOptions, Request, RequestMethod} from '@angular/http';
    
@@ -14,7 +12,6 @@ declare var webkitAudioContext;
   selector: 'app-root',
   templateUrl: './weather.component.html',
   styleUrls: ['./weather.component.scss'],
-   
 })
 
 export class LooperComponent {
@@ -34,37 +31,54 @@ export class LooperComponent {
    '/assets/kits/vox_hey1.wav', 
    '/assets/kits/vox_hey2.wav',
    '/assets/kits/vox_what.wav',
-   '/assets/kits/wood.wav' ];
+   '/assets/kits/wood.wav',
+   '/assets/kits/rhodes1.wav',
+   '/assets/kits/rhodes2.wav',
+   '/assets/kits/rhodes3.wav',
+   '/assets/kits/rhodes4.wav',
+   '/assets/kits/rhodes5.wav',
+   '/assets/kits/rhodes6.wav',
+   '/assets/kits/rhodes7.wav',
+   '/assets/kits/rhodes8.wav',
+   '/assets/kits/rhodes9.wav',
+   '/assets/kits/rhodes10.wav',
+   '/assets/kits/bass1.wav', 
+   '/assets/kits/bass2.wav',
+   '/assets/kits/bass3.wav',
+   '/assets/kits/bass4.wav',
+   '/assets/kits/bass6.wav',
+   '/assets/kits/bass7.wav',
+   '/assets/kits/bass8.wav',
+   '/assets/kits/bass9.wav',
+   '/assets/kits/bass1.wav',];
+
      
    
-   public singleTrackPlayButtons = [];
-   public trackId = 0;
-    public isMetronomePlaying = false;
-    public undecodedBuffers = [];
-   public isStopped = false;
-   public timeWhenStopped :any;
-   public decodedAudioRecord = [];
-   public soundsBufferAudio = []; 
-   public audioSources = []; 
-   public playingNodes = [];
-   public loopClockHelperVariable;
-   public isRecording = false;
-   public recordStarted;
-   public progressFillWidth = 0;
-   public tempo = this.createProjectService.tempo;
-   public beats = this.createProjectService.beats;
-   public duration = this.createProjectService.duration;
-  constructor(private http:Http, private createProjectService: createProjectService) {}
-   ngOnInit (){ 
-   }
-   
+public singleTrackPlayButtons = [];
+public trackId = 0;
+public isMetronomePlaying = false;
+public undecodedBuffers = [];
+public isStopped = false;
+public timeWhenStopped :any;
+public decodedAudioRecord = [];
+public soundsBufferAudio = []; 
+public audioSources = []; 
+public playingNodes = [];
+public loopClockHelperVariable;
+public isRecording = false;
+public recordStarted;
+public progressFillWidth = 0;
+public tempo = this.createProjectService.tempo;
+public beats = this.createProjectService.beats;
+public duration = this.createProjectService.duration;
+constructor(private http:Http, private createProjectService: createProjectService) {}
+ngOnInit (){ 
+this.loadSounds()
+}
+
 public projectSettings;
-   ngAfterContentInit () {
-    this.loadSounds();      
-   }
-  audioContext = new AudioContext();
-  public metronomeNode = this.audioContext.createBufferSource(); 
-   
+audioContext = new AudioContext();
+public metronomeNode = this.audioContext.createBufferSource(); 
 public keyCode;
 public pressedButton: string = '';
 @HostListener('document:keydown', ['$event'])
@@ -72,6 +86,9 @@ public handleKeyboardEvent(event: KeyboardEvent): void {
     let that = this;
      this.keyCode = event.keyCode;
  
+    if (this.keyCode === 106) {
+        this.startRecord();
+    }
     for (let index=0; index<that.soundsBufferAudio.length; index++) {
         let soundKeyCode = that.soundsBufferAudio[index].keyCode;
 
@@ -85,6 +102,7 @@ public isAllStopped: Boolean;
  
 play(sound) {
     var startTime  = this.audioContext.currentTime;
+     
     var recordStarted = this.recordStarted;
     var source = this.audioContext.createBufferSource();
     if (this.isRecording) {
@@ -106,7 +124,7 @@ startMetronome () {
             that.metronomeNode = this.audioContext.createBufferSource(); 
             that.metronomeNode.buffer = buffer;
             that.metronomeNode.connect(that.audioContext.destination);
-            that.metronomeNode.start();     
+            that.metronomeNode.start();
             that.metronomeNode.loop = true;
             that.metronomeNode.loopEnd =(60/that.tempo);
         })  
@@ -203,10 +221,10 @@ handleLooperClock () {
         }
         if (that.audioContext.currentTime - loopStarted < that.duration ) {  
            that.progressFillWidth = ((that.audioContext.currentTime - loopStarted)/that.duration) * 100; 
-         }  else {
+        }  else {
              loopStarted = that.audioContext.currentTime;
              that.loopClockHelperVariable = loopStarted;
-         }
+        }
     },10)
 }
 
@@ -255,7 +273,7 @@ stopRecord() {
  }
  
 loadSounds(){
-   var keyCode = 65
+   let keyCode = 65
     let that = this;
     let options = new RequestOptions({responseType: ResponseContentType.ArrayBuffer});
     this.sounds.forEach(function(sound) {
@@ -264,9 +282,11 @@ loadSounds(){
         .map(r => r.arrayBuffer())
         .subscribe((soundBuffer) => {
             that.audioContext.decodeAudioData( soundBuffer,(buffer) => {
+                let key = String.fromCharCode(keyCode)
                 let soundBufferAndTitle = {
                     soundBuffer: buffer,
                     keyCode: keyCode,
+                    key: key,
                     title: fileName, 
                 }
                 keyCode+=1;
